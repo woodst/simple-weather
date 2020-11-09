@@ -9,13 +9,23 @@ package org.sonatype.mavenbook.OpenWeather.Pojos;
  */
 public class WindSpeed {
 
-    private Float value;
+    private double value;
     private String unit;
     private String name;
 
-    public WindSpeed() { }
+    public WindSpeed() {
+        this.value = 0.0;
+        this.unit = "unspecified";
+        this.name = "unspecified";
+    }
 
-    public Float getValue() {
+    public WindSpeed(double value, String unit, String name) {
+        this.value = value;
+        this.unit = unit;
+        this.name = name;
+    }
+
+    public double getValue() {
         return value;
     }
 

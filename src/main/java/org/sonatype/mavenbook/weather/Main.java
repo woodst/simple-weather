@@ -1,17 +1,17 @@
 package org.sonatype.mavenbook.weather;
 
+import org.sonatype.mavenbook.OpenWeather.OpenWeatherObject;
+import org.sonatype.mavenbook.weather.Factories.ParserFactory;
+import org.sonatype.mavenbook.weather.Factories.RetrieverFactory;
+
 import java.io.InputStream;
-import org.apache.log4j.PropertyConfigurator;
-import org.sonatype.mavenbook.YahooWeather.YahooParser;
-import org.sonatype.mavenbook.YahooWeather.YahooRetriever;
-import org.sonatype.mavenbook.YahooWeather.YahooWeather;
 
 public class Main {
 
     public static void main( String[] args ) throws Exception {
 
         // config log4j
-        PropertyConfigurator.configure( Main.class.getClassLoader().getResource( "log4j.properties"  ));
+        //PropertyConfigurator.configure( Main.class.getClassLoader().getResource( "log4j.properties"  ));
 
         // Read zip from shell
         String zipcode = "99163";
@@ -30,15 +30,24 @@ public class Main {
         this.zip = zip;
     }
 
+
+
     public void start() throws Exception {
-        // Retrieve Data
-        InputStream dataIn = new YahooRetriever().retrieve( zip );
 
-        // Parse Data
-        YahooWeather weather = new YahooParser().parse( dataIn );
+        InputStream dataIn = ( new RetrieverFactory().getRetriever( "OpenWeatherRetriever" ).retrieve( "99163", "b344da26542bfa3b2a72d5bd06b91100" ));
+        OpenWeatherObject weather = (new ParserFactory().getOpenWeatherParser( "OpenWeatherParser" )).parse( dataIn );
 
-        // Format (print) Data
-        System.out.print( new WeatherFormatter().format( weather ) );
+        System.out.println();
+
+//        // Retrieve Data
+//        InputStream dataIn = new YahooRetriever().retrieve( zip );
+//
+//        // Parse Data
+//        YahooWeather weather = new YahooParser().parse( dataIn );
+//
+//        // Format (print) Data
+//        System.out.print( new WeatherFormatter().format( weather ) );
 
     }
+
 }
